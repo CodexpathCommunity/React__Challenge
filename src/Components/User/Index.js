@@ -1,87 +1,83 @@
-import React, { useReducer } from "react";
+import React, { useState } from "react";
 import { EntryContainer } from "./UserElements";
 
-const initialState = {
-  entry1: false,
-  entry2: false,
-  entry3: false,
-  entry4: false,
-};
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "ENTRY1__ACTIVE":
-      return {
-        ...state,
-        entry1: true,
-        entry2: false,
-        entry3: false,
-        entry4: false,
-      };
-    case "ENTRY2__ACTIVE":
-      return {
-        ...state,
-        entry1: false,
-        entry2: true,
-        entry3: false,
-        entry4: false,
-      };
-    case "ENTRY3__ACTIVE":
-      return {
-        ...state,
-        entry1: false,
-        entry2: false,
-        entry3: true,
-        entry4: false,
-      };
-    case "ENTRY4__ACTIVE":
-      return {
-        ...state,
-        entry1: false,
-        entry2: false,
-        entry3: false,
-        entry4: true,
-      };
-    default:
-      return state;
-  }
-};
-
 function User() {
-  const [{ entry1, entry2, entry3, entry4 }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [state, setState] = useState({
+    firstEntry: false,
+    secontEntry: false,
+    thirdEntry: false,
+    fourthEntry: false,
+  });
+
+  const handleClick = (event) => {
+    const name = event.target.getAttribute("value");
+
+    if (name === "firstEntry") {
+      setState({
+        ...state,
+        firstEntry: true,
+        secontEntry: false,
+        thirdEntry: false,
+        fourthEntry: false,
+      });
+    }
+    if (name === "secontEntry") {
+      setState({
+        ...state,
+        firstEntry: false,
+        secontEntry: true,
+        thirdEntry: false,
+        fourthEntry: false,
+      });
+    }
+    if (name === "thirdEntry") {
+      setState({
+        ...state,
+        firstEntry: false,
+        secontEntry: false,
+        thirdEntry: true,
+        fourthEntry: false,
+      });
+    }
+    if (name === "fourthEntry") {
+      setState({
+        ...state,
+        firstEntry: false,
+        secontEntry: false,
+        thirdEntry: false,
+        fourthEntry: true,
+      });
+    }
+  };
+
   const entryData = [
     {
-      name: "entry1",
-      state: entry1,
-      actionType: "ENTRY1__ACTIVE",
+      name: "firstEntry",
+      state: state.firstEntry,
+      value: "EntryOne",
     },
     {
-      name: "entry2",
-      state: entry2,
-      actionType: "ENTRY2__ACTIVE",
+      name: "secontEntry",
+      state: state.secontEntry,
+      value: "EntryTwo",
     },
     {
-      name: "entry3",
-      state: entry3,
-      actionType: "ENTRY3__ACTIVE",
+      name: "thirdEntry",
+      state: state.thirdEntry,
+      value: "EntryThree",
     },
     {
-      name: "entry4",
-      state: entry4,
-      actionType: "ENTRY4__ACTIVE",
+      name: "fourthEntry",
+      state: state.fourthEntry,
+      value: "EntryFour",
     },
   ];
 
   return (
     <>
-      {entryData.map(({ name, state, actionType }) => (
-        <EntryContainer
-          active={state}
-          onClick={() => dispatch({ type: actionType })}
-        >
-          <h3>{name}</h3>
+      {entryData.map(({ name, state, value }) => (
+        <EntryContainer active={state} value={name} onClick={handleClick}>
+          <h3>{value}</h3>
         </EntryContainer>
       ))}
     </>
