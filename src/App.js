@@ -1,25 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { ComponentContainer, ComponentContent } from "./AppElements";
+import Admin from "./Components/Admin/Index";
+import Header from "./Components/Header/Index";
+import User from "./Components/User/Index";
+import { useStateValue } from "./StateProvider";
 
 function App() {
+  const [{ adminMode }] = useStateValue();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <ComponentContainer admin={adminMode}>
+        <ComponentContent admin={adminMode}>
+          {adminMode ? <Admin /> : <User />}
+        </ComponentContent>
+      </ComponentContainer>
+    </>
   );
 }
 
